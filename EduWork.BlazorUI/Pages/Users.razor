@@ -1,0 +1,76 @@
+﻿@page "/Users"
+@inject HttpClient Http
+<PageTitle>Users</PageTitle>
+
+<h1>Users</h1>
+@*
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>UserID</th>
+                <th>OID</th>
+                <th>Active</th>
+                <th>RoleID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @* @foreach (var forecast in forecasts) *@
+                <tr>
+                    <td>1c5498d3-a4e7-4ef3-a1ff-1942eb39640c</td>
+                    <td>126</td>
+                    <td>0</td>
+                    <td>d881a958-031c-402d-8ebb-7faaa90fe239</td>
+                </tr>
+                <tr>
+                    <td>f4ce3b23-19ca-4567-ba17-95b64fa39333</td>
+                    <td>125</td>
+                    <td>1</td>
+                    <td>d881a958-031c-402d-8ebb-7faaa90fe239</td>
+                </tr>
+                <tr>
+                    <td>4dda0d06-c414-4091-adea-bf304c5db921</td>
+                    <td>124</td>
+                    <td>1</td>
+                    <td>d881a958-031c-402d-8ebb-7faaa90fe239</td>
+                </tr>
+                <tr>
+                    <td>3c077101-f267-455b-9f59-fb94b2f246b5</td>
+                    <td>123</td>
+                    <td>1</td>
+                    <td>66626421-bd93-4b11-b08a-93b7b203d1e4</td>
+                </tr>
+        </tbody>
+    </table>
+    @*
+}
+    *@
+
+
+@code {
+   @* 
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    } 
+    *@
+}

@@ -1,0 +1,75 @@
+﻿@page "/Workdays"
+@inject HttpClient Http
+<PageTitle>Workdays</PageTitle>
+
+<h1>Workdays</h1>
+@*
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>WorkDayId</th>
+            <th>Date</th>
+            <th>SetTime</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>bd77f921-c8fd-402a-838e-01b61c06e053</td>
+            <td>2024-05-02 00:00:00.0000000</td>
+            <td>09:00:00</td>
+        </tr>
+        <tr>
+            <td>0896c909-a7d5-480b-a253-6c1e07e0974b</td>
+            <td>2024-05-01 00:00:00.0000000</td>
+            <td>08:00:00</td>
+        </tr>
+        <tr>
+            <td>939d5f82-6ac2-48aa-aade-783fffe0e4f3</td>
+            <td>2024-05-04 00:00:00.0000000</td>
+            <td>08:00:00</td>
+        </tr>
+        <tr>
+            <td>e4456390-1302-404e-85ad-81998b848fe9</td>
+            <td>2024-05-01 00:00:00.0000000</td>
+            <td>07:30:00</td>
+        </tr>
+        <tr>
+            <td>c2e5795c-2e0f-41e4-a700-942376425ca3</td>
+            <td>2024-05-03 00:00:00.0000000</td>
+            <td>09:30:00</td>
+        </tr>
+    </tbody>
+</table>
+    @*
+}
+    *@
+
+
+@code {
+   @* 
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    } 
+    *@
+}

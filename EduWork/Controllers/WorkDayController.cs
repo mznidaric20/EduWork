@@ -23,27 +23,50 @@ namespace EduWork.WebAPI.Controllers
 
         // GET: api/WorkDays
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkDay>>> GetWorkDays()
+        public async Task<ActionResult<IEnumerable<object>>> GetWorkDays()
         {
-            return await _context.WorkDays
-                .Include(wd => wd.User_WorkDays)
+            var workDays = await _context.WorkDays
+                .Select(wd => new
+                {
+                    wd.WorkDayId,
+                    wd.Date,
+                    wd.SetTime,
+                    wd.Endtime,
+                    wd.BreakTime,
+                    wd.ScheduledTime,
+                    wd.ActualTime
+                    // Add other properties as needed
+                })
                 .ToListAsync();
+
+            return Ok(workDays);
         }
 
         // GET: api/WorkDays/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<WorkDay>> GetWorkDay(Guid id)
+        public async Task<IActionResult> GetWorkDay(Guid id)
         {
             var workDay = await _context.WorkDays
-                .Include(wd => wd.User_WorkDays)
-                .FirstOrDefaultAsync(wd => wd.WorkDayId == id);
+                .Where(wd => wd.WorkDayId == id)
+                .Select(wd => new
+                {
+                    wd.WorkDayId,
+                    wd.Date,
+                    wd.SetTime,
+                    wd.Endtime,
+                    wd.BreakTime,
+                    wd.ScheduledTime,
+                    wd.ActualTime
+                    // Add other properties as needed
+                })
+                .FirstOrDefaultAsync();
 
             if (workDay == null)
             {
                 return NotFound();
             }
 
-            return workDay;
+            return Ok(workDay);
         }
 
         // PUT: api/WorkDays/{id}

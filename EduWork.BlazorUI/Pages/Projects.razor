@@ -1,0 +1,75 @@
+﻿@page "/projects"
+@inject HttpClient Http
+<PageTitle>Projects</PageTitle>
+
+<h1>Projects</h1>
+@*
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>ProjectId</th>
+            <th>ProjectName</th>
+            <th>Description</th>
+            <th>ProjectTypeId</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>b51bcbc3-d3cd-45bd-acb6-238f1c68c455</td>
+            <td>Project1</td>
+            <td>Description of Project one.</td>
+            <td>63fa26f2-de1b-4f9f-ab4b-adf0e9546bac</td>
+        </tr>
+        <tr>
+            <td>cc52619d-2311-4bce-94e1-625673964978</td>
+            <td>Project2</td>
+            <td>Description of project 2</td>
+            <td>fbc7570d-1170-4ef0-a75f-c2230962a0c6</td>
+        </tr>
+        <tr>
+            <td>6d9ac595-fd90-4a6a-859e-8dd495dd4ab5</td>
+            <td>Project3</td>
+            <td>Description of Project3</td>
+            <td>4bc2cd73-0ec0-4066-9601-cea7727c6ad9</td>
+        </tr>
+        <tr>
+            <td>1cc343a1-5a4f-4737-a586-f05f2cee2057</td>
+            <td>Project4</td>
+            <td>Description of Project4</td>
+            <td>4bc2cd73-0ec0-4066-9601-cea7727c6ad9</td>
+        </tr>
+    </tbody>
+</table>
+    @*
+}
+    *@
+
+
+@code {
+   @* 
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    } 
+    *@
+}

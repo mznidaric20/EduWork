@@ -23,27 +23,38 @@ namespace EduWork.WebAPI.Controllers
 
         // GET: api/Roles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<object>>> GetRoles()
         {
-            return await _context.Roles
-                .Include(r => r.Users)
+            var roles = await _context.Roles
+                .Select(r => new
+                {
+                    r.RoleId,
+                    r.RoleName
+                })
                 .ToListAsync();
+
+            return Ok(roles);
         }
 
         // GET: api/Roles/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Role>> GetRole(Guid id)
+        public async Task<IActionResult> GetRole(Guid id)
         {
             var role = await _context.Roles
-                .Include(r => r.Users)
-                .FirstOrDefaultAsync(r => r.RoleId == id);
+                .Where(r => r.RoleId == id)
+                .Select(r => new
+                {
+                    r.RoleId,
+                    r.RoleName
+                })
+                .FirstOrDefaultAsync();
 
             if (role == null)
             {
                 return NotFound();
             }
 
-            return role;
+            return Ok(role);
         }
 
         // PUT: api/Roles/{id}

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EduWork.common\EduWork.common.csproj" />
     <ProjectReference Include="..\EduWork.Data\EduWork.Data.csproj" />
   </ItemGroup>
 

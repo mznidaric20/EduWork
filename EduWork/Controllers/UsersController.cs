@@ -23,33 +23,42 @@ namespace EduWork.WebAPI.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<object>>> GetUsers()
         {
-            return await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.User_WorkDays)
-                .Include(u => u.Overtimes)
-                .Include(u => u.WorkOnProjects)
+            var users = await _context.Users
+                .Select(u => new
+                {
+                    u.UserId,
+                    u.OID,
+                    u.Active,
+                    u.RoleId
+                })
                 .ToListAsync();
+
+            return Ok(users);
         }
 
         // GET: api/Users/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(Guid id)
+        public async Task<IActionResult> GetUser(Guid id)
         {
             var user = await _context.Users
-                .Include(u => u.Role)
-                .Include(u => u.User_WorkDays)
-                .Include(u => u.Overtimes)
-                .Include(u => u.WorkOnProjects)
-                .FirstOrDefaultAsync(u => u.UserId == id);
+                .Where(u => u.UserId == id)
+                .Select(u => new
+                {
+                    u.UserId,
+                    u.OID,
+                    u.Active,
+                    u.RoleId
+                })
+                .FirstOrDefaultAsync();
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return Ok(user);
         }
 
         // PUT: api/Users/{id}

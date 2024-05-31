@@ -1,0 +1,57 @@
+﻿@page "/roles"
+@inject HttpClient Http
+<PageTitle>Roles</PageTitle>
+
+<h1>Roles</h1>
+@*
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+*@
+    <table class="table">
+        <thead>
+            <tr>
+                <th>RoleId</th>
+                <th>RoleName</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>d881a958-031c-402d-8ebb-7faaa90fe239</td>
+                <td>User</td>
+            </tr>
+            <tr>
+                <td>66626421-bd93-4b11-b08a-93b7b203d1e4</td>
+                <td>Admin</td>
+            </tr>
+        </tbody>
+    </table>
+    @*
+}
+    *@
+
+
+@code {
+   @* 
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    } 
+    *@
+}
